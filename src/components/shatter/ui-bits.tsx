@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { CountUp } from "@/components/shatter/count-up";
 
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
@@ -96,23 +94,17 @@ export function StatusBadge({ status }: { status: string }) {
 export function EmptyState({
   title,
   description,
-  actionLabel,
-  actionTo,
+  action,
 }: {
   title: string;
   description?: string;
-  actionLabel?: string;
-  actionTo?: string;
+  action?: ReactNode;
 }) {
   return (
     <div className="rounded-2xl border border-dashed border-border bg-card/40 px-6 py-12 text-center">
       <h3 className="text-xl">{title}</h3>
       {description ? <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">{description}</p> : null}
-      {actionLabel && actionTo ? (
-        <Button asChild className="mt-6">
-          <Link to={actionTo}>{actionLabel}</Link>
-        </Button>
-      ) : null}
+      {action ? <div className="mt-6 flex justify-center">{action}</div> : null}
     </div>
   );
 }
