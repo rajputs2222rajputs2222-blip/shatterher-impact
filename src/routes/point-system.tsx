@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/shatter/ui-bits";
-import { getPointRules } from "@/lib/public.functions";
+import { getPointRules, type TeamRules } from "@/lib/public.functions";
 
 export const Route = createFileRoute("/point-system")({
   head: () => ({
@@ -27,7 +27,7 @@ function PointSystem() {
         description="Points = approved quantity × points per unit. Only approved contributions count, and reviewers can adjust when a project's scope calls for it."
       />
       <div className="mt-12 grid gap-4 lg:grid-cols-2">
-        {teams.map((team) => {
+        {teams.map((team: TeamRules) => {
           const highlight = team.slug === "partnerships" || team.slug === "content-review";
           return (
             <section
@@ -45,7 +45,7 @@ function PointSystem() {
                 </div>
               </div>
               <ul className="mt-5 divide-y divide-border/70">
-                {team.rules.map((rule) => (
+                {team.rules.map((rule: TeamRules["rules"][number]) => (
                   <li key={rule.id} className="flex items-center justify-between gap-4 py-3">
                     <div>
                       <p className="text-sm font-medium">{rule.name}</p>
