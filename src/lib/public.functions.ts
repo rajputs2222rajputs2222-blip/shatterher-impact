@@ -46,13 +46,14 @@ export const getPlatformStats = createServerFn({ method: "GET" }).handler(async 
 export const getLeaderboard = createServerFn({ method: "GET" })
   .inputValidator((input: { period?: string; team?: string | null; search?: string | null; limit?: number; offset?: number }) => input)
   .handler(async ({ data }): Promise<LeaderboardRow[]> => {
-    const { data: rows, error } = await publicClient().rpc("get_leaderboard", {
+    const args: { p_period: string; p_limit: number; p_offset: number; p_team?: string; p_search?: string } = {
       p_period: data.period ?? "all",
-      p_team: data.team ?? undefined,
-      p_search: data.search ?? undefined,
       p_limit: data.limit ?? 50,
       p_offset: data.offset ?? 0,
-    });
+    };
+    if (data.team) args.p_team = data.team;
+    if (data.search) args.p_search = data.search;
+    const { data: rows, error } = await publicClient().rpc("get_leaderboard", args);
     if (error) throw new Error(error.message);
     return (rows ?? []).map((row) => ({
       rank: Number(row.rank),
