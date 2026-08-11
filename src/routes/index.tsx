@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow, SectionHeading, StatCard } from "@/components/shatter/ui-bits";
-import { getLeaderboard, getPlatformStats } from "@/lib/public.functions";
+import { getLeaderboard, getPlatformStats, type LeaderboardRow } from "@/lib/public.functions";
 import { formatNumber, initials } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
@@ -65,7 +65,7 @@ function Home() {
               <Link to="/leaderboard" className="text-xs text-primary hover:underline">View all</Link>
             </div>
             <ul className="mt-4 space-y-2">
-              {top.map((row) => (
+              {top.map((row: LeaderboardRow) => (
                 <li key={row.profile_id}>
                   <Link
                     to="/members/$id"
