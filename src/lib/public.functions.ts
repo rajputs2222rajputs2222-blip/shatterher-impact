@@ -77,7 +77,25 @@ export const getTeams = createServerFn({ method: "GET" }).handler(async () => {
   return data ?? [];
 });
 
-export const getPointRules = createServerFn({ method: "GET" }).handler(async () => {
+export type TeamRules = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  icon: string | null;
+  sort_order: number | null;
+  rules: {
+    id: string;
+    team_id: string;
+    name: string;
+    description: string | null;
+    unit_label: string;
+    points_per_unit: number;
+    sort_order: number | null;
+  }[];
+};
+
+export const getPointRules = createServerFn({ method: "GET" }).handler(async (): Promise<TeamRules[]> => {
   const supabase = publicClient();
   const [teams, rules] = await Promise.all([
     supabase.from("teams").select("id, slug, name, description, icon, sort_order").order("sort_order"),
