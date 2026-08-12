@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Award, Trophy } from "lucide-react";
-import { getMemberProfile } from "@/lib/public.functions";
+import { getMemberProfile, type MemberProfilePage } from "@/lib/public.functions";
 import { formatDate, formatNumber, initials } from "@/lib/format";
 import { Eyebrow, StatCard, EmptyState } from "@/components/shatter/ui-bits";
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/members/$id")({
 });
 
 function MemberPage() {
-  const { profile, rank, ledger, achievements } = Route.useLoaderData();
+  const { profile, rank, ledger, achievements } = Route.useLoaderData() as MemberProfilePage;
   const team = profile.teams as { name: string; slug: string; icon: string | null } | null;
 
   return (
