@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Crown, Medal, Search, Trophy } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { type LeaderboardRow, type TeamRow, getLeaderboard, getTeams, type LeaderboardRow } from "@/lib/public.functions";
+import { type LeaderboardRow, type TeamRow, getLeaderboard, getTeams } from "@/lib/public.functions";
 import { formatNumber, initials } from "@/lib/format";
 import { Eyebrow, EmptyState } from "@/components/shatter/ui-bits";
 import { cn } from "@/lib/utils";
