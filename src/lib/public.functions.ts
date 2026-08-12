@@ -68,7 +68,16 @@ export const getLeaderboard = createServerFn({ method: "GET" })
     }));
   });
 
-export const getTeams = createServerFn({ method: "GET" }).handler(async () => {
+export type TeamRow = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  icon: string | null;
+  sort_order: number | null;
+};
+
+export const getTeams = createServerFn({ method: "GET" }).handler(async (): Promise<TeamRow[]> => {
   const { data, error } = await publicClient()
     .from("teams")
     .select("id, slug, name, description, icon, sort_order")
@@ -113,9 +122,30 @@ export const getPointRules = createServerFn({ method: "GET" }).handler(async ():
   }));
 });
 
+export type MemberProfilePage = {
+  profile: {
+    id: string;
+    full_name: string;
+    avatar_url: string | null;
+    bio: string | null;
+    role_title: string | null;
+    status: string;
+    total_points: number;
+    total_contributions: number;
+    created_at: string;
+    teams: { name: string; slug: string; icon: string | null } | null;
+  };
+  rank: number | null;
+  ledger: { id: string; points: number; reason: string; created_at: string }[];
+  achievements: {
+    earned_at: string;
+    achievements: { code: string; name: string; description: string; icon: string } | null;
+  }[];
+};
+
 export const getMemberProfile = createServerFn({ method: "GET" })
   .inputValidator((input: { id: string }) => input)
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<MemberProfilePage | null> => {
     const supabase = publicClient();
     const { data: profile, error } = await supabase
       .from("profiles")
