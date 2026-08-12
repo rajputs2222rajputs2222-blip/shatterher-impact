@@ -76,7 +76,7 @@ function Contribute() {
 
   async function submit() {
     if (!user || !profile || !task) return;
-    if (!title.trim()) return toast.error("Give your contribution a title");
+    if (!title.trim()) { toast.error("Give your contribution a title"); return; }
     setBusy(true);
     try {
       const { data: submission, error } = await supabase

@@ -61,7 +61,7 @@ function ProfilePage() {
       })
       .eq("id", profile.id);
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Profile updated.");
     queryClient.invalidateQueries({ queryKey: ["my-profile"] });
   }
