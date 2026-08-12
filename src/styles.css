@@ -167,3 +167,144 @@
 @utility animate-rise {
   animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-pop {
+  animation: pop 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10%, 8%, 0) scale(1.18);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(8%, 6%, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(-8%, -10%, 0) scale(0.92);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 4%, 0) scale(0.95);
+  }
+  50% {
+    transform: translate3d(-12%, -6%, 0) scale(1.22);
+  }
+}
+
+@utility blob-a {
+  animation: drift-a 22s ease-in-out infinite;
+}
+
+@utility blob-b {
+  animation: drift-b 28s ease-in-out infinite;
+}
+
+@utility blob-c {
+  animation: drift-c 34s ease-in-out infinite;
+}
+
+/* Liquid glass surface with glassmorphic border + specular sheen */
+@utility liquid {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in oklch, var(--foreground) 9%, transparent),
+      color-mix(in oklch, var(--card) 55%, transparent) 42%,
+      color-mix(in oklch, var(--primary) 8%, transparent)
+    );
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 14%, transparent);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 16%, transparent) inset,
+    0 -1px 0 0 color-mix(in oklch, var(--primary) 18%, transparent) inset,
+    0 24px 60px -30px color-mix(in oklch, var(--primary) 55%, transparent);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 80% at 12% -10%,
+      color-mix(in oklch, var(--foreground) 14%, transparent),
+      transparent 55%
+    );
+    opacity: 0.7;
+    z-index: -1;
+  }
+}
+
+@utility liquid-hover {
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklch, var(--primary) 45%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in oklch, var(--foreground) 22%, transparent) inset,
+      0 28px 70px -28px color-mix(in oklch, var(--primary) 70%, transparent);
+  }
+  &:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+}
+
+/* Every tap responds */
+@utility tap {
+  transition:
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+@layer base {
+  button,
+  a,
+  [role="button"] {
+    transition:
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.18s ease,
+      color 0.18s ease,
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.96);
+  }
+}

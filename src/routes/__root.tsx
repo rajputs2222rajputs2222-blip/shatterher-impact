@@ -15,6 +15,7 @@ import { SessionProvider } from "@/hooks/use-session";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { MobileTabBar } from "@/components/site/mobile-tabbar";
+import { GlowBackground } from "@/components/shatter/glow-bg";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -136,6 +137,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
+        <GlowBackground />
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">

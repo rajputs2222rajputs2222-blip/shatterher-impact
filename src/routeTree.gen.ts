@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as PointSystemRouteImport } from './routes/point-system'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedContributeRouteImport } from './routes/_authenticated/contribute'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -63,6 +64,11 @@ const LeaderboardRoute = LeaderboardRouteImport.update({
 const PointSystemRoute = PointSystemRouteImport.update({
   id: '/point-system',
   path: '/point-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAchievementsRoute =
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -133,6 +140,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/contribute': typeof AuthenticatedContributeRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/leaderboard'
     | '/point-system'
+    | '/reset-password'
     | '/achievements'
     | '/contribute'
     | '/dashboard'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/leaderboard'
     | '/point-system'
+    | '/reset-password'
     | '/achievements'
     | '/contribute'
     | '/dashboard'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/leaderboard'
     | '/point-system'
+    | '/reset-password'
     | '/_authenticated/achievements'
     | '/_authenticated/contribute'
     | '/_authenticated/dashboard'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   LeaderboardRoute: typeof LeaderboardRoute
   PointSystemRoute: typeof PointSystemRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   MembersIdRoute: typeof MembersIdRoute
 }
 
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/point-system'
       fullPath: '/point-system'
       preLoaderRoute: typeof PointSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/achievements': {
@@ -377,6 +397,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   LeaderboardRoute: LeaderboardRoute,
   PointSystemRoute: PointSystemRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   MembersIdRoute: MembersIdRoute,
 }
 export const routeTree = rootRouteImport
