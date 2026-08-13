@@ -108,11 +108,7 @@ export const getPointRules = createServerFn({ method: "GET" }).handler(async ():
   const supabase = publicClient();
   const [teams, rules] = await Promise.all([
     supabase.from("teams").select("id, slug, name, description, icon, sort_order").order("sort_order"),
-    supabase
-      .from("task_types")
-      .select("id, team_id, name, description, unit_label, points_per_unit, sort_order")
-      .eq("active", true)
-      .order("sort_order"),
+    supabase.rpc("get_public_point_rules"),
   ]);
   if (teams.error) throw new Error(teams.error.message);
   if (rules.error) throw new Error(rules.error.message);
@@ -147,34 +143,19 @@ export const getMemberProfile = createServerFn({ method: "GET" })
   .inputValidator((input: { id: string }) => input)
   .handler(async ({ data }): Promise<MemberProfilePage | null> => {
     const supabase = publicClient();
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .select("id, full_name, avatar_url, bio, role_title, status, total_points, total_contributions, created_at, teams(name, slug, icon)")
-      .eq("id", data.id)
-      .maybeSingle();
+    const { data: payload, error } = await supabase.rpc("get_public_member_profile", { p_id: data.id });
     if (error) throw new Error(error.message);
-    if (!profile) return null;
+    if (!payload) return null;
 
-    const [ledger, board, achievements] = await Promise.all([
-      supabase
-        .from("points_ledger")
-        .select("id, points, reason, created_at")
-        .eq("profile_id", data.id)
-        .order("created_at", { ascending: false })
-        .limit(20),
-      supabase.rpc("get_leaderboard", { p_period: "all", p_limit: 1000, p_offset: 0 }),
-      supabase
-        .from("user_achievements")
-        .select("earned_at, achievements(code, name, description, icon)")
-        .eq("profile_id", data.id),
-    ]);
+    const page = payload as unknown as Omit<MemberProfilePage, "rank">;
 
+    const board = await supabase.rpc("get_leaderboard", { p_period: "all", p_limit: 1000, p_offset: 0 });
     const rank = (board.data ?? []).find((row) => row.profile_id === data.id)?.rank ?? null;
 
     return {
-      profile,
+      profile: page.profile,
       rank: rank === null ? null : Number(rank),
-      ledger: ledger.data ?? [],
-      achievements: achievements.data ?? [],
+      ledger: page.ledger ?? [],
+      achievements: page.achievements ?? [],
     };
   });

@@ -411,6 +411,19 @@ export type Database = {
           teams: number
         }[]
       }
+      get_public_member_profile: { Args: { p_id: string }; Returns: Json }
+      get_public_point_rules: {
+        Args: never
+        Returns: {
+          description: string
+          id: string
+          name: string
+          points_per_unit: number
+          sort_order: number
+          team_id: string
+          unit_label: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
