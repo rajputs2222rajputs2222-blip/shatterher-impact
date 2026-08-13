@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminLayout() {
-  const { isAdmin, profileLoading } = useSession();
+  const { isAdmin, rolesLoading } = useSession();
 
-  if (profileLoading) {
+  if (rolesLoading) {
     return (
       <div className="grid min-h-[50vh] place-items-center">
         <Loader2 className="size-6 animate-spin text-primary" />
