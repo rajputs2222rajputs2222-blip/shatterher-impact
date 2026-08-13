@@ -4,6 +4,7 @@ import { Menu, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/hooks/use-session";
 import { initials } from "@/lib/format";
+import { BrandLogo } from "@/components/site/brand-logo";
 
 const links = [
   { to: "/", label: "Home" },
@@ -16,7 +17,7 @@ const links = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const { user, profile, isStaff, signOut } = useSession();
+  const { user, profile, isStaff, isAdmin, signOut } = useSession();
   const navigate = useNavigate();
 
   async function handleSignOut() {
@@ -28,10 +29,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
-            SH
-          </span>
+        <Link to="/" className="tap flex items-center gap-2">
+          <BrandLogo className="h-9 w-9 drop-shadow-[0_0_16px_color-mix(in_oklch,var(--primary)_60%,transparent)]" />
           <span className="text-display text-lg tracking-tight sm:text-xl">
             ShatterHer<span className="text-primary">Leaders</span>
           </span>
@@ -62,6 +61,11 @@ export function SiteHeader() {
               {isStaff ? (
                 <Button asChild size="sm" variant="ghost">
                   <Link to="/review">Review</Link>
+                </Button>
+              ) : null}
+              {isAdmin ? (
+                <Button asChild size="sm" variant="ghost">
+                  <Link to="/admin">Admin</Link>
                 </Button>
               ) : null}
               <Button asChild size="sm" variant="ghost">
@@ -127,6 +131,11 @@ export function SiteHeader() {
                   {isStaff ? (
                     <Button asChild variant="outline" onClick={() => setOpen(false)}>
                       <Link to="/review">Contribution Review</Link>
+                    </Button>
+                  ) : null}
+                  {isAdmin ? (
+                    <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                      <Link to="/admin">Admin CMS</Link>
                     </Button>
                   ) : null}
                   <Button variant="ghost" onClick={handleSignOut}>
