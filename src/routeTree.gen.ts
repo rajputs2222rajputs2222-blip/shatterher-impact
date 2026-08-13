@@ -27,6 +27,7 @@ import { Route as AuthenticatedPointsRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedReviewRouteImport } from './routes/_authenticated/review'
 import { Route as MembersIdRouteImport } from './routes/members.$id'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +120,11 @@ const MembersIdRoute = MembersIdRouteImport.update({
   path: '/members/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -129,7 +135,7 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -148,7 +155,6 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -157,6 +163,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,7 +176,7 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/point-system': typeof PointSystemRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRouteRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/contribute': typeof AuthenticatedContributeRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -178,6 +185,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -199,6 +207,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/review'
     | '/members/$id'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -209,7 +218,6 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/point-system'
     | '/reset-password'
-    | '/admin'
     | '/achievements'
     | '/contribute'
     | '/dashboard'
@@ -218,6 +226,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/review'
     | '/members/$id'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/review'
     | '/members/$id'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -381,11 +391,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembersIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRoute
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedContributeRoute: typeof AuthenticatedContributeRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -396,7 +427,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRoute,
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedContributeRoute: AuthenticatedContributeRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
