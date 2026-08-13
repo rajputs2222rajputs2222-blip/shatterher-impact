@@ -108,11 +108,7 @@ export const getPointRules = createServerFn({ method: "GET" }).handler(async ():
   const supabase = publicClient();
   const [teams, rules] = await Promise.all([
     supabase.from("teams").select("id, slug, name, description, icon, sort_order").order("sort_order"),
-    supabase
-      .from("task_types")
-      .select("id, team_id, name, description, unit_label, points_per_unit, sort_order")
-      .eq("active", true)
-      .order("sort_order"),
+    supabase.rpc("get_public_point_rules"),
   ]);
   if (teams.error) throw new Error(teams.error.message);
   if (rules.error) throw new Error(rules.error.message);
