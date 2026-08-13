@@ -23,6 +23,8 @@ type SessionContextValue = {
   profile: MemberProfile | null;
   profileLoading: boolean;
   isStaff: boolean;
+  isAdmin: boolean;
+  rolesLoading: boolean;
   signOut: () => Promise<void>;
 };
 
@@ -101,13 +103,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       profile: profileQuery.data ?? null,
       profileLoading: profileQuery.isLoading,
       isStaff: (rolesQuery.data ?? []).some((r) => r === "admin" || r === "reviewer"),
+      isAdmin: (rolesQuery.data ?? []).some((r) => r === "admin"),
+      rolesLoading: Boolean(userId) && rolesQuery.isLoading,
       signOut: async () => {
         await queryClient.cancelQueries();
         queryClient.clear();
         await supabase.auth.signOut();
       },
     }),
-    [session, loading, profileQuery.data, profileQuery.isLoading, rolesQuery.data, queryClient],
+    [session, loading, profileQuery.data, profileQuery.isLoading, rolesQuery.data, rolesQuery.isLoading, userId, queryClient],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

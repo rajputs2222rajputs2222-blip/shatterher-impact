@@ -114,6 +114,9 @@ function AuthPage() {
         )}
 
         <div className="mt-6 flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
+            Admins: sign in here with your admin account to open the CMS control center.
+          </p>
           <button type="button" className="tap text-left hover:text-foreground" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setSent(false); }}>
             {mode === "signin" ? "New here? Create an account" : "Already a member? Sign in"}
           </button>
