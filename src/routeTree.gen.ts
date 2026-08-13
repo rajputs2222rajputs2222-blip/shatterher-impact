@@ -28,8 +28,10 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedReviewRouteImport } from './routes/_authenticated/review'
 import { Route as MembersIdRouteImport } from './routes/members.$id'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAchievementsRouteImport } from './routes/_authenticated/admin/achievements'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin/content'
 import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin/members'
+import { Route as AuthenticatedAdminTeamsRouteImport } from './routes/_authenticated/admin/teams'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -127,6 +129,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminAchievementsRoute =
+  AuthenticatedAdminAchievementsRouteImport.update({
+    id: '/achievements',
+    path: '/achievements',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminContentRoute =
   AuthenticatedAdminContentRouteImport.update({
     id: '/content',
@@ -139,6 +147,11 @@ const AuthenticatedAdminMembersRoute =
     path: '/members',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminTeamsRoute = AuthenticatedAdminTeamsRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -158,8 +171,10 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/admin/achievements': typeof AuthenticatedAdminAchievementsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/teams': typeof AuthenticatedAdminTeamsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -179,8 +194,10 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/admin/achievements': typeof AuthenticatedAdminAchievementsRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/teams': typeof AuthenticatedAdminTeamsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -203,8 +220,10 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/review': typeof AuthenticatedReviewRoute
   '/members/$id': typeof MembersIdRoute
+  '/_authenticated/admin/achievements': typeof AuthenticatedAdminAchievementsRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/_authenticated/admin/teams': typeof AuthenticatedAdminTeamsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -227,8 +246,10 @@ export interface FileRouteTypes {
     | '/profile'
     | '/review'
     | '/members/$id'
+    | '/admin/achievements'
     | '/admin/content'
     | '/admin/members'
+    | '/admin/teams'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -248,8 +269,10 @@ export interface FileRouteTypes {
     | '/profile'
     | '/review'
     | '/members/$id'
+    | '/admin/achievements'
     | '/admin/content'
     | '/admin/members'
+    | '/admin/teams'
     | '/admin'
   id:
     | '__root__'
@@ -271,8 +294,10 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/review'
     | '/members/$id'
+    | '/_authenticated/admin/achievements'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/members'
+    | '/_authenticated/admin/teams'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -424,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/achievements': {
+      id: '/_authenticated/admin/achievements'
+      path: '/achievements'
+      fullPath: '/admin/achievements'
+      preLoaderRoute: typeof AuthenticatedAdminAchievementsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/content': {
       id: '/_authenticated/admin/content'
       path: '/content'
@@ -438,19 +470,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMembersRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/teams': {
+      id: '/_authenticated/admin/teams'
+      path: '/teams'
+      fullPath: '/admin/teams'
+      preLoaderRoute: typeof AuthenticatedAdminTeamsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAchievementsRoute: typeof AuthenticatedAdminAchievementsRoute
   AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
   AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
+  AuthenticatedAdminTeamsRoute: typeof AuthenticatedAdminTeamsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminAchievementsRoute: AuthenticatedAdminAchievementsRoute,
     AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
     AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
+    AuthenticatedAdminTeamsRoute: AuthenticatedAdminTeamsRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 
