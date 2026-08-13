@@ -23,6 +23,7 @@ type SessionContextValue = {
   profile: MemberProfile | null;
   profileLoading: boolean;
   isStaff: boolean;
+  isAdmin: boolean;
   signOut: () => Promise<void>;
 };
 
@@ -101,6 +102,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       profile: profileQuery.data ?? null,
       profileLoading: profileQuery.isLoading,
       isStaff: (rolesQuery.data ?? []).some((r) => r === "admin" || r === "reviewer"),
+      isAdmin: (rolesQuery.data ?? []).some((r) => r === "admin"),
       signOut: async () => {
         await queryClient.cancelQueries();
         queryClient.clear();
