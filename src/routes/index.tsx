@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Eyebrow, SectionHeading, StatCard } from "@/components/shatter/ui-bits";
 import { getLeaderboard, getPlatformStats, type LeaderboardRow } from "@/lib/public.functions";
 import { formatNumber, initials } from "@/lib/format";
+import { getSiteContent, type ContentMap } from "@/lib/content.functions";
+import { text } from "@/lib/site-content";
+import { DEFAULT_LOGO } from "@/components/site/brand-logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,6 +20,7 @@ export const Route = createFileRoute("/")({
   loader: async () => ({
     stats: await getPlatformStats(),
     top: await getLeaderboard({ data: { limit: 5 } }),
+    content: await getSiteContent(),
   }),
   component: Home,
 });
@@ -29,26 +33,35 @@ const steps = [
 ];
 
 function Home() {
-  const { stats, top } = Route.useLoaderData();
+  const { stats, top, content } = Route.useLoaderData() as {
+    stats: { members: number; contributions: number; points: number; teams: number };
+    top: LeaderboardRow[];
+    content: ContentMap;
+  };
+  const heroImage = text(content, "home.hero_image", DEFAULT_LOGO);
 
   return (
     <div>
       <section className="aurora relative overflow-hidden border-b border-border">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="animate-rise">
-            <Eyebrow>ShatterHer · Leaders</Eyebrow>
+            <Eyebrow>{text(content, "home.eyebrow", "ShatterHer · Leaders")}</Eyebrow>
             <h1 className="mt-5 text-5xl leading-[0.95] sm:text-6xl md:text-7xl">
-              Every<br />contribution<br /><span className="italic text-primary">counts.</span>
+              {text(content, "home.title_line1", "Every")}
+              <br />
+              {text(content, "home.title_line2", "contribution")}
+              <br />
+              <span className="glow-text italic text-primary">{text(content, "home.title_line3", "counts.")}</span>
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-              Create. Contribute. Lead. Earn your place among the ShatterHer leaders.
+              {text(content, "home.subtitle", "Create. Contribute. Lead. Earn your place among the ShatterHer leaders.")}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link to="/contribute"><Plus className="size-4" /> Share Your Contribution</Link>
+              <Button asChild size="lg" className="tap">
+                <Link to="/contribute"><Plus className="size-4" /> {text(content, "home.cta_primary", "Share Your Contribution")}</Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to="/leaderboard">Explore the Leaders <ArrowRight className="size-4" /></Link>
+              <Button asChild size="lg" variant="outline" className="tap">
+                <Link to="/leaderboard">{text(content, "home.cta_secondary", "Explore the Leaders")} <ArrowRight className="size-4" /></Link>
               </Button>
             </div>
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -59,7 +72,21 @@ function Home() {
             </div>
           </div>
 
-          <div className="glass rounded-3xl p-5 sm:p-6">
+          <div className="space-y-6">
+          <div className="liquid bulge animate-pop relative overflow-hidden p-6 text-center">
+            <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_50%_20%,color-mix(in_oklch,var(--primary)_38%,transparent),transparent_70%)]" />
+            <img
+              src={heroImage}
+              alt="ShatterHer — break the chains, reclaim the freedom"
+              className="mx-auto h-40 w-auto object-contain drop-shadow-[0_0_38px_color-mix(in_oklch,var(--primary)_65%,transparent)] sm:h-52"
+              loading="eager"
+            />
+            <p className="mt-4 text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
+              {text(content, "brand.tagline", "Break the chains. Reclaim the freedom.")}
+            </p>
+          </div>
+
+          <div className="liquid bulge p-5 sm:p-6">
             <div className="flex items-center justify-between">
               <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Live leaderboard</p>
               <Link to="/leaderboard" className="text-xs text-primary hover:underline">View all</Link>
@@ -90,6 +117,7 @@ function Home() {
                 </li>
               ) : null}
             </ul>
+          </div>
           </div>
         </div>
       </section>
