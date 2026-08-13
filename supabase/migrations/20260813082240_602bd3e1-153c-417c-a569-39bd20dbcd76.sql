@@ -1,0 +1,2 @@
+CREATE POLICY "user roles admin manage" ON public.user_roles FOR ALL TO authenticated USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+GRANT INSERT, DELETE ON public.user_roles TO authenticated;
