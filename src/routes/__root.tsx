@@ -16,6 +16,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { MobileTabBar } from "@/components/site/mobile-tabbar";
 import { GlowBackground } from "@/components/shatter/glow-bg";
+import { VisitTracker } from "@/components/site/visit-tracker";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -102,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -138,6 +139,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <GlowBackground />
+        <VisitTracker />
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">
