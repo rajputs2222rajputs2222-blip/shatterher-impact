@@ -26,7 +26,7 @@ type Member = {
   full_name: string;
   role_title: string | null;
   team_id: string | null;
-  status: string;
+  status: "active" | "inactive" | "pending";
   total_points: number;
   total_contributions: number;
 };
