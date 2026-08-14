@@ -259,17 +259,17 @@
   background:
     linear-gradient(
       145deg,
-      color-mix(in oklch, var(--foreground) 9%, transparent),
-      color-mix(in oklch, var(--card) 55%, transparent) 42%,
-      color-mix(in oklch, var(--primary) 8%, transparent)
+      color-mix(in oklch, var(--foreground) 8%, transparent),
+      color-mix(in oklch, var(--card) 66%, transparent) 42%,
+      color-mix(in oklch, var(--primary) 6%, transparent)
     );
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  border: 1px solid color-mix(in oklch, var(--foreground) 14%, transparent);
+  backdrop-filter: blur(18px) saturate(145%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  border-top-color: color-mix(in oklch, var(--foreground) 20%, transparent);
   box-shadow:
-    0 1px 0 0 color-mix(in oklch, var(--foreground) 16%, transparent) inset,
-    0 -1px 0 0 color-mix(in oklch, var(--primary) 18%, transparent) inset,
-    0 24px 60px -30px color-mix(in oklch, var(--primary) 55%, transparent);
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 14%, transparent) inset,
+    0 -1px 0 0 color-mix(in oklch, var(--primary) 14%, transparent) inset,
+    0 18px 44px -28px color-mix(in oklch, var(--background) 92%, black);
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -283,7 +283,7 @@
     pointer-events: none;
     background: radial-gradient(
       120% 80% at 12% -10%,
-      color-mix(in oklch, var(--foreground) 14%, transparent),
+      color-mix(in oklch, var(--foreground) 12%, transparent),
       transparent 55%
     );
     opacity: 0.7;
@@ -293,14 +293,14 @@
 
 @utility liquid-hover {
   &:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in oklch, var(--primary) 45%, transparent);
+    transform: translateY(-2px);
+    border-color: color-mix(in oklch, var(--primary) 34%, transparent);
     box-shadow:
-      0 1px 0 0 color-mix(in oklch, var(--foreground) 22%, transparent) inset,
-      0 28px 70px -28px color-mix(in oklch, var(--primary) 70%, transparent);
+      0 1px 0 0 color-mix(in oklch, var(--foreground) 20%, transparent) inset,
+      0 26px 60px -28px color-mix(in oklch, var(--primary) 42%, transparent);
   }
   &:active {
-    transform: translateY(-1px) scale(0.99);
+    transform: translateY(0) scale(0.995);
   }
 }
 
@@ -312,7 +312,7 @@
     background-color 0.18s ease,
     border-color 0.18s ease;
   &:active {
-    transform: scale(1.03);
+    transform: scale(0.985);
   }
 }
 
@@ -323,15 +323,15 @@
     box-shadow 0.22s ease,
     border-color 0.22s ease;
   &:active {
-    transform: scale(1.035);
+    transform: scale(1.015);
     box-shadow:
-      0 1px 0 0 color-mix(in oklch, var(--foreground) 24%, transparent) inset,
-      0 34px 80px -26px color-mix(in oklch, var(--primary) 85%, transparent);
+      0 1px 0 0 color-mix(in oklch, var(--foreground) 22%, transparent) inset,
+      0 30px 70px -30px color-mix(in oklch, var(--primary) 55%, transparent);
   }
 }
 
 @utility glow-text {
-  text-shadow: 0 0 38px color-mix(in oklch, var(--primary) 60%, transparent);
+  text-shadow: 0 0 34px color-mix(in oklch, var(--primary) 45%, transparent);
 }
 
 @layer base {
@@ -349,6 +349,147 @@
 
   button:active,
   [role="button"]:active {
-    transform: scale(1.04);
+    transform: scale(0.985);
+  }
+}
+
+/* ---------- Glass material system ---------- */
+
+/* Level 2 — elevated glass: modals, floating panels, dropdowns */
+@utility glass-elevated {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in oklch, var(--foreground) 10%, transparent),
+      color-mix(in oklch, var(--popover) 88%, transparent) 40%,
+      color-mix(in oklch, var(--primary) 8%, transparent)
+    );
+  backdrop-filter: blur(34px) saturate(165%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 16%, transparent);
+  border-top-color: color-mix(in oklch, var(--foreground) 26%, transparent);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 20%, transparent) inset,
+    0 30px 80px -30px oklch(0 0 0 / 0.6),
+    0 8px 24px -18px color-mix(in oklch, var(--primary) 60%, transparent);
+}
+
+/* Level 3 — interactive glass: buttons, tabs, nav items */
+@utility glass-interactive {
+  background: color-mix(in oklch, var(--foreground) 6%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  box-shadow: 0 1px 0 0 color-mix(in oklch, var(--foreground) 14%, transparent) inset;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  &:hover {
+    background: color-mix(in oklch, var(--foreground) 11%, transparent);
+    border-color: color-mix(in oklch, var(--foreground) 20%, transparent);
+  }
+  &:active {
+    transform: scale(0.985);
+  }
+}
+
+/* Featured metrics, primary CTA surfaces */
+@utility glass-highlight {
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in oklch, var(--primary) 26%, transparent),
+      color-mix(in oklch, var(--card) 70%, transparent) 60%,
+      color-mix(in oklch, var(--accent) 12%, transparent)
+    );
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid color-mix(in oklch, var(--primary) 34%, transparent);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 22%, transparent) inset,
+    0 24px 60px -32px color-mix(in oklch, var(--primary) 65%, transparent);
+}
+
+/* Recessed glass for form controls */
+@utility glass-input {
+  background: color-mix(in oklch, var(--background) 45%, transparent);
+  backdrop-filter: blur(10px) saturate(130%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 14%, transparent);
+  box-shadow:
+    0 1px 2px 0 oklch(0 0 0 / 0.25) inset,
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 8%, transparent);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  &:focus-visible,
+  &:focus-within {
+    border-color: color-mix(in oklch, var(--primary) 55%, transparent);
+    box-shadow:
+      0 1px 2px 0 oklch(0 0 0 / 0.25) inset,
+      0 0 0 3px color-mix(in oklch, var(--primary) 22%, transparent);
+    outline: none;
+  }
+}
+
+/* Floating navigation layer */
+@utility glass-nav {
+  background: color-mix(in oklch, var(--background) 62%, transparent);
+  backdrop-filter: blur(26px) saturate(160%);
+  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklch, var(--foreground) 14%, transparent) inset,
+    0 18px 50px -30px oklch(0 0 0 / 0.75);
+}
+
+@layer base {
+  /* Glass scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--foreground) 22%, transparent) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--foreground) 18%, transparent);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklch, var(--foreground) 30%, transparent);
+    background-clip: content-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in oklch, var(--primary) 70%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+/* Lighter effects on small screens for performance */
+@media (max-width: 640px) {
+  .liquid,
+  .glass,
+  .glass-elevated,
+  .glass-nav {
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
