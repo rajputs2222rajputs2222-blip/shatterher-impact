@@ -7,7 +7,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl lg:hidden"
+      className="glass-nav fixed inset-x-0 bottom-0 z-50 rounded-none border-x-0 border-b-0 lg:hidden"
       aria-label="Primary"
     >
       <div className="mx-auto grid max-w-md grid-cols-5 items-end px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Plus, X } from "lucide-react";
+import { Menu, Plus, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/hooks/use-session";
 import { initials } from "@/lib/format";
@@ -27,7 +27,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-xl">
+    <header className="glass-nav sticky top-0 z-50 rounded-none border-x-0 border-t-0">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link to="/" className="tap flex items-center gap-2">
           <BrandLogo className="h-9 w-9 drop-shadow-[0_0_16px_color-mix(in_oklch,var(--primary)_60%,transparent)]" />
@@ -64,8 +64,10 @@ export function SiteHeader() {
                 </Button>
               ) : null}
               {isAdmin ? (
-                <Button asChild size="sm" variant="ghost">
-                  <Link to="/admin">Admin</Link>
+                <Button asChild size="sm" variant="outline">
+                  <Link to="/admin">
+                    <ShieldCheck className="size-4" /> Admin
+                  </Link>
                 </Button>
               ) : null}
               <Button asChild size="sm" variant="ghost">
@@ -90,6 +92,11 @@ export function SiteHeader() {
               <Button asChild size="sm">
                 <Link to="/auth">Join ShatterHer</Link>
               </Button>
+              <Button asChild size="sm" variant="outline" aria-label="Admin sign in">
+                <Link to="/admin-login">
+                  <ShieldCheck className="size-4" /> Admin
+                </Link>
+              </Button>
             </>
           )}
         </div>
@@ -106,7 +113,7 @@ export function SiteHeader() {
       </div>
 
       {open ? (
-        <div className="border-t border-border bg-background lg:hidden">
+        <div className="glass-nav rounded-none border-x-0 border-b-0 lg:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-4 py-3 sm:px-6">
             {links.map((link) => (
               <Link
@@ -143,9 +150,16 @@ export function SiteHeader() {
                   </Button>
                 </>
               ) : (
-                <Button asChild onClick={() => setOpen(false)}>
-                  <Link to="/auth">Sign in / Join</Link>
-                </Button>
+                <>
+                  <Button asChild onClick={() => setOpen(false)}>
+                    <Link to="/auth">Sign in / Join</Link>
+                  </Button>
+                  <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                    <Link to="/admin-login">
+                      <ShieldCheck className="size-4" /> Admin sign in
+                    </Link>
+                  </Button>
+                </>
               )}
             </div>
           </nav>

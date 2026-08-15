@@ -32,6 +32,9 @@ export function SiteFooter() {
           <Link to="/dashboard" className="hover:text-foreground">
             Dashboard
           </Link>
+          <Link to="/admin-login" className="hover:text-foreground">
+            Admin
+          </Link>
         </nav>
         <div className="space-y-3 text-sm">
           <a
