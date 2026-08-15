@@ -17,7 +17,7 @@ export function MemberNav() {
           key={item.to}
           to={item.to}
           activeProps={{ className: "border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/30" }}
-          className="tap shrink-0 rounded-full border border-border bg-secondary/40 px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+          className="tap glass-interactive shrink-0 rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
         >
           {item.label}
         </Link>
